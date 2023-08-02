@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(parser.urlencoded({extended: true}));
 
 app.use("/api/users", validateToken, userRouter);
-app.use("/api/posts", validateToken, postRouter);
+app.use("/api/posts", validateToken, postRouter); // not complete
 app.use("/", authenticationRouter);
 
 app.listen(process.env.PORT, () => {

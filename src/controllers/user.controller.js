@@ -13,16 +13,11 @@ const userController = {
   },
 
   updateUser: (req, res) => {
-    const id = req.body.id;
-    const userId = req.user.id;
-    
-    const newData = {
-      email: req.body.email,
-      userName: req.body.userName,
-    };
+    const id = req.user.id;
+    const userName = req.body.userName;
 
     userModel
-      .updateUser(newData, id, userId)
+      .updateUser(userName, id)
       .then((result) => {
         if (result) {
           return res.json({message: "User updated successfully."});
@@ -36,10 +31,9 @@ const userController = {
   },
 
   deleteUser: (req, res) => {
-    const id = req.body.id;
-    const userId = req.user.id;
+    const id = req.user.id;
     userModel
-      .deleteUser(id,userId)
+      .deleteUser(id)
       .then((result) => {
         if (result) {
           return res.json({message: "User deleted successfully."});

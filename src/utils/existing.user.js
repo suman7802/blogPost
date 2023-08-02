@@ -2,14 +2,17 @@ const connection = require("../models/db");
 
 const existing = {
   email: (email) => {
-    console.log(email)
+    console.log(email);
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM users WHERE email = ?`,
-        email,
+        `SELECT * FROM users WHERE email = $1`,
+        [email],
         (err, result) => {
           if (err) reject(err);
-          else resolve(result.length === 0 ? null : result[0]);
+          else {
+            const userExists = result.rows.length > 0;
+            resolve(userExists ? result.rows[0] : null);
+          }
         }
       );
     });
@@ -18,11 +21,14 @@ const existing = {
   userName: (userName) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM users WHERE userName = ?`,
-        userName,
+        `SELECT * FROM users WHERE userName = $1`,
+        [userName],
         (err, result) => {
           if (err) reject(err);
-          else resolve(result.length === 0 ? null : result[0]);
+          else {
+            const userExists = result.rows.length > 0;
+            resolve(userExists ? result.rows[0] : null);
+          }
         }
       );
     });

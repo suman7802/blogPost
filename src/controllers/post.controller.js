@@ -2,13 +2,13 @@ const postModel = require("../models/post.model");
 
 const postController = {
   addPost: (req, res) => {
-    const newPost = {
-      userId: req.user.id,
-      ...req.body,
-    };
+    const userId = req.user.id;
+    const title = req.body.title;
+    const blog = req.body.blog;
+    const private = req.body.private;
 
     postModel
-      .createPost(newPost, userId)
+      .createPost(userId, title, blog, private)
       .then((result) => {
         return res.status(201).json({result});
       })
@@ -29,16 +29,15 @@ const postController = {
   },
 
   updatePost: (req, res) => {
-    const id = req.body.id;
     const userId = req.user.id;
 
-    const newPost = {
-      title: req.body.title,
-      blog: req.body.blog,
-      private: req.body.private,
-    };
+    const id = req.body.id;
+    const title = req.body.title;
+    const blog = req.body.blog;
+    const private = req.body.private;
+
     postModel
-      .updatePost(newPost, id, userId)
+      .updatePost(userId, id, title, blog, private)
       .then((result) => {
         res.status(200).json({result});
       })

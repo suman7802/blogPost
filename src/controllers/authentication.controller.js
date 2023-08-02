@@ -16,8 +16,9 @@ const authenticationController = {
     if (user) {
       return res.status(404).json({error: "email already exist"});
     }
+
     if (nickname) {
-      return res.status(404).json({error: "userName is already Taken"});
+      return res.status(404).json({error: "user name is already Taken"});
     }
 
     if (!user && !nickname) {
@@ -28,7 +29,7 @@ const authenticationController = {
         email: req.body.email,
         password: hashedPassword,
       };
-     
+
       userModel
         .addUser(newUser)
         .then((userId) => {
@@ -51,6 +52,8 @@ const authenticationController = {
     if (!user) {
       return res.status(404).json({error: "user not found"});
     }
+
+    console.log(user)
 
     let passwordMatch = await bcrypt.compare(password, user.password);
 

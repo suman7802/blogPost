@@ -1,22 +1,25 @@
-const connection = require("./db");
+const pool = require("./db");
 
 const userModel = {
-  addUser: (user) => {
-    return new Promise((resolve, reject) => {
-      connection.query(`INSERT INTO users SET ?`, user, (err, results) => {
-        if (err) {
-          console.log(err);
-          reject(err);
-        } else {
-          resolve(results);
-        }
-      });
-    });
+  addUser: async (user) => {
+    try {
+      const query =
+        "INSERT INTO users (userName, email, password) VALUES ($1, $2, $3) RETURNING id";
+      const values = [user.userName, user.email, user.password];
+
+      const result = await pool.query(query, values);
+      const insertedUserId = result.rows[0].id;
+      console.log(`User with ID ${insertedUserId} successfully added.`);
+      return insertedUserId;
+    } catch (error) {
+      console.error("Error adding user:", error);
+      throw error;
+    }
   },
 
   getAllUsers: () => {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM users`, (err, results) => {
+      pool.query(`SELECT * FROM users`, (err, results) => {
         if (err) {
           reject(err);
         } else {
@@ -26,12 +29,11 @@ const userModel = {
     });
   },
 
-  updateUser: (newData,id, userId) => {
-    console.log(newData)
+  updateUser: (userName, id) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `UPDATE users SET ? WHERE id = ? AND userId = ?`,
-        [newData, id,userId],
+      pool.query(
+        `UPDATE users SET userName = $1 WHERE id = $2`,
+        [userName, id],
         (err, results) => {
           if (err) {
             reject(err);
@@ -44,19 +46,15 @@ const userModel = {
     });
   },
 
-  deleteUser: (id, userId) => {
+  deleteUser: (id) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `DELETE FROM users WHERE id = ? AND userId = ?`,
-        [id,userId],
-        (err, results) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(results);
-          }
+      pool.query(`DELETE FROM users WHERE id = $1`, [id], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
         }
-      );
+      });
     });
   },
 };
