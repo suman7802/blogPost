@@ -2,7 +2,6 @@ const connection = require("../models/db");
 
 const existing = {
   email: (email) => {
-    console.log(email);
     return new Promise((resolve, reject) => {
       connection.query(
         `SELECT * FROM users WHERE email = $1`,

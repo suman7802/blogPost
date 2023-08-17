@@ -16,7 +16,7 @@ const postModel = {
     });
   },
 
-  getAllPost: (private) => {
+  getAllPost: () => {
     return new Promise((resolve, reject) => {
       pool.query(`SELECT * FROM posts WHERE PRIVATE = false`, (err, result) => {
         if (err) {
@@ -25,6 +25,22 @@ const postModel = {
           console.log(result), resolve(result);
         }
       });
+    });
+  },
+
+  getPost: (userId) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT * FROM posts WHERE userid = $1`,
+        [userId],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log(result), resolve(result);
+          }
+        }
+      );
     });
   },
 

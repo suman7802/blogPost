@@ -3,6 +3,7 @@ const postModel = require("../models/post.model");
 const postController = {
   addPost: (req, res) => {
     const userId = req.user.id;
+
     const title = req.body.title;
     const blog = req.body.blog;
     const private = req.body.private;
@@ -20,6 +21,18 @@ const postController = {
   getAllPost: (req, res) => {
     postModel
       .getAllPost()
+      .then((result) => {
+        return res.status(200).json(result);
+      })
+      .catch((err) => {
+        return res.status(400).json({err});
+      });
+  },
+
+  getPost: (req, res) => {
+    const userId = req.user.id;
+    postModel
+      .getPost(userId)
       .then((result) => {
         return res.status(200).json(result);
       })

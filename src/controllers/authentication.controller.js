@@ -53,8 +53,6 @@ const authenticationController = {
       return res.status(404).json({error: "user not found"});
     }
 
-    console.log(user)
-
     let passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {

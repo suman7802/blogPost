@@ -18,9 +18,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(parser.urlencoded({extended: true}));
 
-app.use("/api/users", validateToken, userRouter);
-app.use("/api/posts", validateToken, postRouter); 
 app.use("/", authenticationRouter);
+app.use("/api/users", validateToken, userRouter);
+app.use("/api/posts", validateToken, postRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.PORT}..`);

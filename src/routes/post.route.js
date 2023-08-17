@@ -4,7 +4,8 @@ const postRouter = express.Router();
 const postController = require("../controllers/post.controller");
 
 postRouter.post("/", postController.addPost);
-postRouter.get("/", postController.getAllPost);
+postRouter.get("/all", postController.getAllPost);
+postRouter.get("/", postController.getPost);
 postRouter.put("/", postController.updatePost);
 postRouter.delete("/", postController.deletePost);
 

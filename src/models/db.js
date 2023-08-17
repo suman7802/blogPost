@@ -1,8 +1,7 @@
 require("dotenv").config();
-// const mysql = require("mysql2");
-const {Client} = require('pg')
+const {Client} = require("pg");
 
-const pool =new Client({
+const pool = new Client({
   host: process.env.HOST,
   database: process.env.DATABASE_NAME,
   port: process.env.DATABASE_PORT,
