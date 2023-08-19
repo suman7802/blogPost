@@ -22,7 +22,7 @@ const postModel = {
         if (err) {
           reject(err);
         } else {
-          console.log(result), resolve(result);
+          resolve(result);
         }
       });
     });
@@ -37,7 +37,7 @@ const postModel = {
           if (err) {
             reject(err);
           } else {
-            console.log(result), resolve(result);
+            resolve(result);
           }
         }
       );

@@ -9,7 +9,6 @@ const userModel = {
 
       const result = await pool.query(query, values);
       const insertedUserId = result.rows[0].id;
-      console.log(`User with ID ${insertedUserId} successfully added.`);
       return insertedUserId;
     } catch (error) {
       console.error("Error adding user:", error);
