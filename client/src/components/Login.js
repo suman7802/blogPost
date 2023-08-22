@@ -2,8 +2,7 @@ import axios from "axios";
 import React, {useState, useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 
-// const url = `/api/user/login`;
-const url = `http://localhost:8000/api/user/login`;
+const url = `http://localhost:8000/login`;
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -39,9 +38,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        url,
-        {
+      const response = await axios.post(url,{
           email,
           password,
         },
@@ -50,6 +47,7 @@ const LoginForm = () => {
           withCredentials: true,
         }
       );
+
       if (response.status == 200) navigate("/Home");
     } catch (error) {
       if (error.response && error.response.status === 400) {

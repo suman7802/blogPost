@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
-const url = `http://localhost:8000/api/user/registration`;
+const url = `http://localhost:8000/registration`;
 
 const RegistrationForm = () => {
   const [responseFromServer, setResponseFromServer] = useState("");
@@ -29,7 +29,6 @@ const RegistrationForm = () => {
         ? ""
         : "Username: 3-20 chars, letters, numbers, underscores only.",
     }));
-    console.log(isValid);
   };
 
   const validateEmail = (email) => {
@@ -89,13 +88,14 @@ const RegistrationForm = () => {
     if (Object.keys(validationErrors).length === 0) {
     }
     try {
+     
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: formData.username,
+          userName: formData.username,
           email: formData.email,
           password: formData.password,
           conformPassword: formData.confirmPassword,
@@ -109,7 +109,7 @@ const RegistrationForm = () => {
       }
     } catch (error) {
       setResponseFromServer(error.message);
-      console.error("Error During Login:", error.message);
+      console.error("Error During Registration:", error.message);
     }
   };
 

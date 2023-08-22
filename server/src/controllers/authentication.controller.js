@@ -9,10 +9,14 @@ const authenticationController = {
     const email = req.body.email;
     const userName = req.body.userName;
     const password = req.body.password;
+    const conformPassword = req.body.conformPassword;
 
     const user = await existing.email(email);
     const nickname = await existing.userName(userName);
 
+    if (password !== conformPassword) {
+      return res.status(400).json({error: "passwords don't match"});
+    }
     if (user) {
       return res.status(404).json({error: "email already exist"});
     }
@@ -23,7 +27,6 @@ const authenticationController = {
 
     if (!user && !nickname) {
       const hashedPassword = bcrypt.hashSync(password, 10);
-
       const newUser = {
         userName: req.body.userName,
         email: req.body.email,
